@@ -1,0 +1,487 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище GaripovMozaikaModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Material">
+          <Key>
+            <PropertyRef Name="Material_ID" />
+          </Key>
+          <Property Name="Material_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Material_Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Material_Type" Type="int" Nullable="false" />
+          <Property Name="Material_Cost" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Material_Count_in_Ware" Type="bigint" Nullable="false" />
+          <Property Name="Material_Min_Count" Type="int" Nullable="false" />
+          <Property Name="Material_Count_In_Pack" Type="int" Nullable="false" />
+          <Property Name="Material_Unit" Type="nvarchar" MaxLength="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Material_Supplier">
+          <Key>
+            <PropertyRef Name="Material_ID" />
+            <PropertyRef Name="Supplier_ID" />
+          </Key>
+          <Property Name="Material_ID" Type="int" Nullable="false" />
+          <Property Name="Supplier_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Material_Type">
+          <Key>
+            <PropertyRef Name="Material_Type_ID" />
+          </Key>
+          <Property Name="Material_Type_ID" Type="int" Nullable="false" />
+          <Property Name="Material_Type_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Material_Type_Proccent" Type="decimal" Precision="10" Scale="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Product_ID" />
+          </Key>
+          <Property Name="Product_ID" Type="int" Nullable="false" />
+          <Property Name="Product_Article" Type="bigint" Nullable="false" />
+          <Property Name="Product_Type" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Product_Material">
+          <Key>
+            <PropertyRef Name="Product_ID" />
+            <PropertyRef Name="Material_ID" />
+          </Key>
+          <Property Name="Product_ID" Type="int" Nullable="false" />
+          <Property Name="Material_ID" Type="int" Nullable="false" />
+          <Property Name="Material_Count" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Product_Type">
+          <Key>
+            <PropertyRef Name="Product_Type_ID" />
+          </Key>
+          <Property Name="Product_Type_ID" Type="int" Nullable="false" />
+          <Property Name="Product_Type_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Product_Type_Coeff" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="Supplier_ID" />
+          </Key>
+          <Property Name="Supplier_ID" Type="int" Nullable="false" />
+          <Property Name="Supplier_Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Supplier_Type" Type="int" Nullable="false" />
+          <Property Name="Supplier_INN" Type="bigint" Nullable="false" />
+          <Property Name="Supplier_Rating" Type="int" Nullable="false" />
+          <Property Name="Supplier_Date_Of_Start" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Supplier_Type">
+          <Key>
+            <PropertyRef Name="Supplier_Type" />
+          </Key>
+          <Property Name="Supplier_Type" Type="int" Nullable="false" />
+          <Property Name="Supplier_Type_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Material_Material_Type">
+          <End Role="Material_Type" Type="Self.Material_Type" Multiplicity="1" />
+          <End Role="Material" Type="Self.Material" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Material_Type">
+              <PropertyRef Name="Material_Type_ID" />
+            </Principal>
+            <Dependent Role="Material">
+              <PropertyRef Name="Material_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Material_Supplier_Material">
+          <End Role="Material" Type="Self.Material" Multiplicity="1" />
+          <End Role="Material_Supplier" Type="Self.Material_Supplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Material">
+              <PropertyRef Name="Material_ID" />
+            </Principal>
+            <Dependent Role="Material_Supplier">
+              <PropertyRef Name="Material_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Material_Supplier_Supplier">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="Material_Supplier" Type="Self.Material_Supplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="Supplier_ID" />
+            </Principal>
+            <Dependent Role="Material_Supplier">
+              <PropertyRef Name="Supplier_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Material_Material">
+          <End Role="Material" Type="Self.Material" Multiplicity="1" />
+          <End Role="Product_Material" Type="Self.Product_Material" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Material">
+              <PropertyRef Name="Material_ID" />
+            </Principal>
+            <Dependent Role="Product_Material">
+              <PropertyRef Name="Material_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Material_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Product_Material" Type="Self.Product_Material" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_ID" />
+            </Principal>
+            <Dependent Role="Product_Material">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Product_Type">
+          <End Role="Product_Type" Type="Self.Product_Type" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product_Type">
+              <PropertyRef Name="Product_Type_ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Product_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Supplier_Supplier_Type">
+          <End Role="Supplier_Type" Type="Self.Supplier_Type" Multiplicity="1" />
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier_Type">
+              <PropertyRef Name="Supplier_Type" />
+            </Principal>
+            <Dependent Role="Supplier">
+              <PropertyRef Name="Supplier_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище GaripovMozaikaModelContainer">
+          <EntitySet Name="Material" EntityType="Self.Material" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Material_Supplier" EntityType="Self.Material_Supplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Material_Type" EntityType="Self.Material_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product_Material" EntityType="Self.Product_Material" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product_Type" EntityType="Self.Product_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Supplier_Type" EntityType="Self.Supplier_Type" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Material_Material_Type" Association="Self.FK_Material_Material_Type">
+            <End Role="Material_Type" EntitySet="Material_Type" />
+            <End Role="Material" EntitySet="Material" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Material_Supplier_Material" Association="Self.FK_Material_Supplier_Material">
+            <End Role="Material" EntitySet="Material" />
+            <End Role="Material_Supplier" EntitySet="Material_Supplier" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Material_Supplier_Supplier" Association="Self.FK_Material_Supplier_Supplier">
+            <End Role="Supplier" EntitySet="Supplier" />
+            <End Role="Material_Supplier" EntitySet="Material_Supplier" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Material_Material" Association="Self.FK_Product_Material_Material">
+            <End Role="Material" EntitySet="Material" />
+            <End Role="Product_Material" EntitySet="Product_Material" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Material_Product" Association="Self.FK_Product_Material_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Product_Material" EntitySet="Product_Material" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Product_Type" Association="Self.FK_Product_Product_Type">
+            <End Role="Product_Type" EntitySet="Product_Type" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Supplier_Supplier_Type" Association="Self.FK_Supplier_Supplier_Type">
+            <End Role="Supplier_Type" EntitySet="Supplier_Type" />
+            <End Role="Supplier" EntitySet="Supplier" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GaripovMozaikaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Material">
+          <Key>
+            <PropertyRef Name="Material_ID" />
+          </Key>
+          <Property Name="Material_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Material_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Material_Type" Type="Int32" Nullable="false" />
+          <Property Name="Material_Cost" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Material_Count_in_Ware" Type="Int64" Nullable="false" />
+          <Property Name="Material_Min_Count" Type="Int32" Nullable="false" />
+          <Property Name="Material_Count_In_Pack" Type="Int32" Nullable="false" />
+          <Property Name="Material_Unit" Type="String" MaxLength="2" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Material_Type1" Relationship="Self.FK_Material_Material_Type" FromRole="Material" ToRole="Material_Type" />
+          <NavigationProperty Name="Product_Material" Relationship="Self.FK_Product_Material_Material" FromRole="Material" ToRole="Product_Material" />
+          <NavigationProperty Name="Supplier" Relationship="Self.Material_Supplier" FromRole="Material" ToRole="Supplier" />
+        </EntityType>
+        <EntityType Name="Material_Type">
+          <Key>
+            <PropertyRef Name="Material_Type_ID" />
+          </Key>
+          <Property Name="Material_Type_ID" Type="Int32" Nullable="false" />
+          <Property Name="Material_Type_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Material_Type_Proccent" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Material" Relationship="Self.FK_Material_Material_Type" FromRole="Material_Type" ToRole="Material" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Product_ID" />
+          </Key>
+          <Property Name="Product_ID" Type="Int32" Nullable="false" />
+          <Property Name="Product_Article" Type="Int64" Nullable="false" />
+          <Property Name="Product_Type" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Product_Material" Relationship="Self.FK_Product_Material_Product" FromRole="Product" ToRole="Product_Material" />
+          <NavigationProperty Name="Product_Type1" Relationship="Self.FK_Product_Product_Type" FromRole="Product" ToRole="Product_Type" />
+        </EntityType>
+        <EntityType Name="Product_Material">
+          <Key>
+            <PropertyRef Name="Product_ID" />
+            <PropertyRef Name="Material_ID" />
+          </Key>
+          <Property Name="Product_ID" Type="Int32" Nullable="false" />
+          <Property Name="Material_ID" Type="Int32" Nullable="false" />
+          <Property Name="Material_Count" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Material" Relationship="Self.FK_Product_Material_Material" FromRole="Product_Material" ToRole="Material" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Product_Material_Product" FromRole="Product_Material" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product_Type">
+          <Key>
+            <PropertyRef Name="Product_Type_ID" />
+          </Key>
+          <Property Name="Product_Type_ID" Type="Int32" Nullable="false" />
+          <Property Name="Product_Type_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Product_Type_Coeff" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Product_Product_Type" FromRole="Product_Type" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="Supplier_ID" />
+          </Key>
+          <Property Name="Supplier_ID" Type="Int32" Nullable="false" />
+          <Property Name="Supplier_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Supplier_Type" Type="Int32" Nullable="false" />
+          <Property Name="Supplier_INN" Type="Int64" Nullable="false" />
+          <Property Name="Supplier_Rating" Type="Int32" Nullable="false" />
+          <Property Name="Supplier_Date_Of_Start" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Supplier_Type1" Relationship="Self.FK_Supplier_Supplier_Type" FromRole="Supplier" ToRole="Supplier_Type" />
+          <NavigationProperty Name="Material" Relationship="Self.Material_Supplier" FromRole="Supplier" ToRole="Material" />
+        </EntityType>
+        <EntityType Name="Supplier_Type">
+          <Key>
+            <PropertyRef Name="Supplier_Type1" />
+          </Key>
+          <Property Name="Supplier_Type1" Type="Int32" Nullable="false" />
+          <Property Name="Supplier_Type_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Supplier" Relationship="Self.FK_Supplier_Supplier_Type" FromRole="Supplier_Type" ToRole="Supplier" />
+        </EntityType>
+        <Association Name="FK_Material_Material_Type">
+          <End Role="Material_Type" Type="Self.Material_Type" Multiplicity="1" />
+          <End Role="Material" Type="Self.Material" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Material_Type">
+              <PropertyRef Name="Material_Type_ID" />
+            </Principal>
+            <Dependent Role="Material">
+              <PropertyRef Name="Material_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Material_Material">
+          <End Role="Material" Type="Self.Material" Multiplicity="1" />
+          <End Role="Product_Material" Type="Self.Product_Material" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Material">
+              <PropertyRef Name="Material_ID" />
+            </Principal>
+            <Dependent Role="Product_Material">
+              <PropertyRef Name="Material_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Material_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Product_Material" Type="Self.Product_Material" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_ID" />
+            </Principal>
+            <Dependent Role="Product_Material">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Product_Type">
+          <End Role="Product_Type" Type="Self.Product_Type" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product_Type">
+              <PropertyRef Name="Product_Type_ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Product_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Supplier_Supplier_Type">
+          <End Role="Supplier_Type" Type="Self.Supplier_Type" Multiplicity="1" />
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier_Type">
+              <PropertyRef Name="Supplier_Type1" />
+            </Principal>
+            <Dependent Role="Supplier">
+              <PropertyRef Name="Supplier_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Material_Supplier">
+          <End Role="Material" Type="Self.Material" Multiplicity="*" />
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="GaripovMozaikaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Material" EntityType="Self.Material" />
+          <EntitySet Name="Material_Type" EntityType="Self.Material_Type" />
+          <EntitySet Name="Product" EntityType="Self.Product" />
+          <EntitySet Name="Product_Material" EntityType="Self.Product_Material" />
+          <EntitySet Name="Product_Type" EntityType="Self.Product_Type" />
+          <EntitySet Name="Supplier" EntityType="Self.Supplier" />
+          <EntitySet Name="Supplier_Type" EntityType="Self.Supplier_Type" />
+          <AssociationSet Name="FK_Material_Material_Type" Association="Self.FK_Material_Material_Type">
+            <End Role="Material_Type" EntitySet="Material_Type" />
+            <End Role="Material" EntitySet="Material" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Material_Material" Association="Self.FK_Product_Material_Material">
+            <End Role="Material" EntitySet="Material" />
+            <End Role="Product_Material" EntitySet="Product_Material" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Material_Product" Association="Self.FK_Product_Material_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Product_Material" EntitySet="Product_Material" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Product_Type" Association="Self.FK_Product_Product_Type">
+            <End Role="Product_Type" EntitySet="Product_Type" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Supplier_Supplier_Type" Association="Self.FK_Supplier_Supplier_Type">
+            <End Role="Supplier_Type" EntitySet="Supplier_Type" />
+            <End Role="Supplier" EntitySet="Supplier" />
+          </AssociationSet>
+          <AssociationSet Name="Material_Supplier" Association="Self.Material_Supplier">
+            <End Role="Material" EntitySet="Material" />
+            <End Role="Supplier" EntitySet="Supplier" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище GaripovMozaikaModelContainer" CdmEntityContainer="GaripovMozaikaEntities">
+          <EntitySetMapping Name="Material">
+            <EntityTypeMapping TypeName="GaripovMozaikaModel.Material">
+              <MappingFragment StoreEntitySet="Material">
+                <ScalarProperty Name="Material_ID" ColumnName="Material_ID" />
+                <ScalarProperty Name="Material_Name" ColumnName="Material_Name" />
+                <ScalarProperty Name="Material_Type" ColumnName="Material_Type" />
+                <ScalarProperty Name="Material_Cost" ColumnName="Material_Cost" />
+                <ScalarProperty Name="Material_Count_in_Ware" ColumnName="Material_Count_in_Ware" />
+                <ScalarProperty Name="Material_Min_Count" ColumnName="Material_Min_Count" />
+                <ScalarProperty Name="Material_Count_In_Pack" ColumnName="Material_Count_In_Pack" />
+                <ScalarProperty Name="Material_Unit" ColumnName="Material_Unit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Material_Type">
+            <EntityTypeMapping TypeName="GaripovMozaikaModel.Material_Type">
+              <MappingFragment StoreEntitySet="Material_Type">
+                <ScalarProperty Name="Material_Type_ID" ColumnName="Material_Type_ID" />
+                <ScalarProperty Name="Material_Type_Name" ColumnName="Material_Type_Name" />
+                <ScalarProperty Name="Material_Type_Proccent" ColumnName="Material_Type_Proccent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product">
+            <EntityTypeMapping TypeName="GaripovMozaikaModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="Product_Article" ColumnName="Product_Article" />
+                <ScalarProperty Name="Product_Type" ColumnName="Product_Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product_Material">
+            <EntityTypeMapping TypeName="GaripovMozaikaModel.Product_Material">
+              <MappingFragment StoreEntitySet="Product_Material">
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="Material_ID" ColumnName="Material_ID" />
+                <ScalarProperty Name="Material_Count" ColumnName="Material_Count" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product_Type">
+            <EntityTypeMapping TypeName="GaripovMozaikaModel.Product_Type">
+              <MappingFragment StoreEntitySet="Product_Type">
+                <ScalarProperty Name="Product_Type_ID" ColumnName="Product_Type_ID" />
+                <ScalarProperty Name="Product_Type_Name" ColumnName="Product_Type_Name" />
+                <ScalarProperty Name="Product_Type_Coeff" ColumnName="Product_Type_Coeff" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Supplier">
+            <EntityTypeMapping TypeName="GaripovMozaikaModel.Supplier">
+              <MappingFragment StoreEntitySet="Supplier">
+                <ScalarProperty Name="Supplier_ID" ColumnName="Supplier_ID" />
+                <ScalarProperty Name="Supplier_Name" ColumnName="Supplier_Name" />
+                <ScalarProperty Name="Supplier_Type" ColumnName="Supplier_Type" />
+                <ScalarProperty Name="Supplier_INN" ColumnName="Supplier_INN" />
+                <ScalarProperty Name="Supplier_Rating" ColumnName="Supplier_Rating" />
+                <ScalarProperty Name="Supplier_Date_Of_Start" ColumnName="Supplier_Date_Of_Start" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Supplier_Type">
+            <EntityTypeMapping TypeName="GaripovMozaikaModel.Supplier_Type">
+              <MappingFragment StoreEntitySet="Supplier_Type">
+                <ScalarProperty Name="Supplier_Type1" ColumnName="Supplier_Type" />
+                <ScalarProperty Name="Supplier_Type_Name" ColumnName="Supplier_Type_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Material_Supplier" TypeName="GaripovMozaikaModel.Material_Supplier" StoreEntitySet="Material_Supplier">
+            <EndProperty Name="Material">
+              <ScalarProperty Name="Material_ID" ColumnName="Material_ID" />
+            </EndProperty>
+            <EndProperty Name="Supplier">
+              <ScalarProperty Name="Supplier_ID" ColumnName="Supplier_ID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

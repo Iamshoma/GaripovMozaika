@@ -1,0 +1,57 @@
+﻿<Page x:Class="GaripovMozaika.AddEditPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GaripovMozaika"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="800"
+      Title="AddEditPage" FontFamily="Comic Sans MS">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Добавить/Радактировать материал" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center"></TextBlock>
+
+        <TextBlock Text="Название материала" Grid.Row="1" Grid.Column="0"></TextBlock>
+        <TextBlock Text="Тип материала" Grid.Row="2" Grid.Column="0"></TextBlock>
+        <TextBlock Text="Стоимость материала" Grid.Row="3" Grid.Column="0"></TextBlock>
+        <TextBlock Text="Количество на складе" Grid.Row="4" Grid.Column="0"></TextBlock>
+        <TextBlock Text="Минимальное количество" Grid.Row="5" Grid.Column="0"></TextBlock>
+        <TextBlock Text="Количество в упаковке" Grid.Row="6" Grid.Column="0"></TextBlock>
+        <TextBlock Text="Единица измерения" Grid.Row="7" Grid.Column="0"></TextBlock>
+        <TextBox Text="{Binding Material_Name}" Grid.Row="1" Grid.Column="1"></TextBox>
+        <TextBox Text="{Binding Material_Cost}" Grid.Row="3" Grid.Column="1"></TextBox>
+        <TextBox Text="{Binding Material_Count_in_Ware}" Grid.Row="4" Grid.Column="1"></TextBox>
+        <TextBox Text="{Binding Material_Min_Count}" Grid.Row="5" Grid.Column="1"></TextBox>
+        <TextBox Text="{Binding Material_Count_In_Pack}" Grid.Row="6" Grid.Column="1"></TextBox>
+        <TextBox Text="{Binding Material_Unit}" Grid.Row="7" Grid.Column="1"></TextBox>
+
+        <ComboBox Name="ComboType" Grid.Row="2" Grid.Column="1">
+
+            <TextBlock>Глазурь</TextBlock>
+            <TextBlock>Добавка</TextBlock>
+            <TextBlock>Пигмент</TextBlock>
+            <TextBlock>Пластичные материалы</TextBlock>
+            <TextBlock>Электролит</TextBlock>
+        </ComboBox>
+
+        <Button HorizontalAlignment="Right" Grid.Row="8" Margin="10" Name="CloseButton" Click="CloseButton_Click" Content="Назад" Background="#546F94" FontSize="20" ></Button>
+        <Button HorizontalAlignment="Left" Grid.Row="8" Grid.Column="1" Margin="10" Name="SaveButton" Click="SaveButton_Click" Content="Сохранить" Background="#546F94" FontSize="20"></Button>
+
+    </Grid>
+</Page>
